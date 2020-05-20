@@ -68,10 +68,10 @@ public class SVGRenderer {
 		g2dImage.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
 		for (Element element : svg.elements()) {
-			ElementFactory factory = ElementFactory.get();
-			Shape shape = (Shape) factory.makeElement(element.label());
-			DecoratorFactory factory2 = DecoratorFactory.get();
-			Decorator decorator = factory2.create(shape, element.label(), g2dImage);
+
+			Shape shape = (Shape) element;
+			DecoratorFactory factory = DecoratorFactory.get();
+			Decorator decorator = factory.create(shape, element.label(), g2dImage);
 			decorator.render();
 			for (Style style : shape.styles())
 				switch (style.label()) {

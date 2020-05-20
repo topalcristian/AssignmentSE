@@ -96,6 +96,10 @@ public class SVGRenderer {
 					shape = (Polygon) element;
 					decorator = new DecoratorGraphics2DPolygon((Polygon) shape, g2dImage);
 					break;
+				case "polyline":
+					shape = (Polyline) element;
+					decorator = new DecoratorGraphics2DPolyline((Polyline) shape, g2dImage);
+					break;
 				case "rect":
 					shape = (Rect) element;
 					decorator = new DecoratorGraphics2DRect((Rect) shape, g2dImage);
@@ -108,9 +112,8 @@ public class SVGRenderer {
 						new DecoratorGraphics2DStrokeWidth((StrokeWidth) style, g2dImage).render();
 						break;
 				}
-		
 
-			}
+		}
 
 		if (!view.zoom()) {
 			// Just draw elements

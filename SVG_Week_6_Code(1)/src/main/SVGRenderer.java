@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import main.decorators.Decorator;
+import main.decorators.DecoratorFactory;
 import main.decorators.shapes.DecoratorGraphics2DCircle;
 import main.decorators.shapes.DecoratorGraphics2DEllipse;
 import main.decorators.shapes.DecoratorGraphics2DLine;
@@ -18,6 +19,7 @@ import main.decorators.styles.DecoratorGraphics2DStrokeWidth;
 import svg.SVG;
 import svg.SVGParser;
 import svg.element.Element;
+import svg.element.ElementFactory;
 import svg.element.shape.Circle;
 import svg.element.shape.Rect;
 import svg.element.shape.Line;
@@ -66,43 +68,10 @@ public class SVGRenderer {
 		g2dImage.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
 		for (Element element : svg.elements()) {
-			Shape shape = null;
-			Decorator decorator = null;
-			switch (element.label()) {
-
-				case "circle":
-					shape = (Circle) element;
-					decorator = new DecoratorGraphics2DCircle((Circle) shape, g2dImage);
-					break;
-
-				case "ellipse":
-					shape = (Ellipse) element;
-					decorator = new DecoratorGraphics2DEllipse((Ellipse) shape, g2dImage);
-					break;
-
-				case "line":
-					shape = (Line) element;
-					decorator = new DecoratorGraphics2DLine((Line) shape, g2dImage);
-					break;
-
-				case "path":
-					shape = (Path) element;
-					decorator = new DecoratorGraphics2DPath((Path) shape, g2dImage);
-					break;
-				case "polygon":
-					shape = (Polygon) element;
-					decorator = new DecoratorGraphics2DPolygon((Polygon) shape, g2dImage);
-					break;
-				case "polyline":
-					shape = (Polyline) element;
-					decorator = new DecoratorGraphics2DPolyline((Polyline) shape, g2dImage);
-					break;
-				case "rect":
-					shape = (Rect) element;
-					decorator = new DecoratorGraphics2DRect((Rect) shape, g2dImage);
-					break;
-
-			}
+			ElementFactory factory = ElementFactory.get();
+			Shape shape = (Shape) factory.makeElement(element.label());
+			DecoratorFactory factory2 = DecoratorFactory.get();
+			Decorator decorator = factory2.create(shape, element.label(), g2dImage);
 			decorator.render();
 			for (Style style : shape.styles())
 				switch (style.label()) {

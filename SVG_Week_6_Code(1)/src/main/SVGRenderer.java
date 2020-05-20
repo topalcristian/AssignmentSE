@@ -65,9 +65,6 @@ public class SVGRenderer {
 		g2dImage.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2dImage.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-		g2d.setPaint(new Color(255, 127, 0));
-		g2d.drawString("Draw SVG contents here.", 10, 20);
-
 		for (Element element : svg.elements()) {
 			Shape shape = null;
 			Decorator decorator = null;
@@ -106,6 +103,7 @@ public class SVGRenderer {
 					break;
 
 			}
+			decorator.render();
 			for (Style style : shape.styles())
 				switch (style.label()) {
 					case "stroke-width":
